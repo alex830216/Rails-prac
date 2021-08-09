@@ -13,4 +13,12 @@ Rails.application.routes.draw do
 
 
   get "/users", to: "pages#profile"
+
+  # get "/notes", to: "notes#index"
+  # get "/notes/new", to: "notes#new"
+  # get "/notes", to: "notes#index"
+
+  # 可以直接改網頁路徑名
+  resources :notes
+  # resources :notes, path:"articles"
 end

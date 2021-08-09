@@ -1,0 +1,18 @@
+<h1>新增筆記</h1>
+
+
+// 用form_for 快速建立
+// 根據@note的方法名去猜測
+<%= form_for(@note) do %>
+
+// action:往哪送，method: 使用什麼方法，get or post
+//  // 沒寫就是 get
+// 後端只在乎 name
+  <input type="text" name="title">
+  <input type="text" name="content">
+  <input type="submit" value="送出">
+
+<% end %>
+
+// QueryString
+// https://google.com/?p=數入表格內的東西 & 下一組
