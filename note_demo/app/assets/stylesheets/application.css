@@ -10,6 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ * 不建議用 require_tree .，會按照英文字母順序載入，可能會被蓋掉
+ * require_tree .
+ *= require "form"
  *= require_self
  */
