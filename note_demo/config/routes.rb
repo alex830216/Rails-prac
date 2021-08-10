@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   # 創造一個 get "/hello", to: "pages#main" 可以連到/hello頁面
   # 名字要對的起來
 
-
-
   # 1.手刻做about出來！！！
   # 2.用 g controller 做做看
   get "/hello", to: "pages#main"
@@ -18,7 +16,9 @@ Rails.application.routes.draw do
   # get "/notes/new", to: "notes#new"
   # get "/notes", to: "notes#index"
 
-  # 可以直接改網頁路徑名
+  # resources 直接生8條路徑，不用像上面一樣一個一個慢慢寫
   resources :notes
+  # 萬一要改網頁路徑名要怎辦?
+  # 用 path:"articles"可以直接改網頁路徑名，網址從/notes變成/articles
   # resources :notes, path:"articles"
 end

@@ -1,12 +1,15 @@
 <h1> 筆記列表 </h1> 
 
-<a href="/notes/new">新增筆記</a>
-<%= link_to "新增筆記", "/notes/new" %>
+<%# <a href="/notes/new">新增筆記</a>
+<%= link_to "新增筆記", "/notes/new" %> 
 
-// 最推薦寫法
-// 全部包在 Ruby 內，linto 是方法 新增筆記是參數 newnote 是要做的事
-// 寫錯會馬上噴錯(NameError)
+
+<%# 最推薦寫法，叫做 view helper
+全部包在 Ruby 內，link_to 是方法 新增筆記是引數，帶進去讓它顯示名字
+new_note_path 也是引數，是要做的事 = 把路徑導向 /notes/new，亂打一通會顯示 Routing Error，裡面有寫
+好處是寫錯會馬上噴錯(NameError) %>
+<%# <%= link_to ("新增筆記", new_note_path) %>
 <%= link_to "新增筆記", new_note_path %>
 
-// 完整路徑
-<%= link_to "新增筆記", new_note_url %>
+<%# 完整路徑 %>
+<%# link_to "新增筆記", new_note_url %>
