@@ -1,3 +1,4 @@
+// application.css 內不建議用 require_tree .，會按照英文字母順序載入，可能會被蓋掉
 // require_tree .  可以把這個目錄的檔案都包起來
 // require_self    寫在自己那邊也可
 // application.css 入口打包擋

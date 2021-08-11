@@ -12,9 +12,12 @@ new_note_path 也是引數，是要做的事 = 把路徑導向 /notes/new，亂�
 <%= link_to "新增筆記", new_note_path %>
 
 <%# 有加=會被印出 %>
+
 <ul>
-<% @notes.each do |note| %>
+<%# 從index方法來的，@notes 是陣列因為是物件所以可以用方法 %>
+<%= @notes.each do |note| %>
   <%#link_to note.title, note_path(note.id)%>
+  <%# link_to(note.title) ,link_to是方法,note.title是參數 %>
   <%# link_to 呈現的資料，路徑：note_path跟id可不寫 %>
   <li><%= link_to note.title, note_path(note) %></li>
 <% end%>

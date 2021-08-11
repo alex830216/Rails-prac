@@ -1,42 +1,45 @@
 class NotesController < ApplicationController
+  # GET 顯示所有資料
   def index
     # @notes = Note.all
     # 排序交給資料庫做 :desc做反向排列
     # 不要做 Note.all.sort.reverse
-    # 可寫 all 可不寫，當你沒有要做其他事就寫all
+    # 可寫 all 可不寫，當你沒有要做其他事就寫 all
     @notes = Note.order(id: :desc)
   end
+
+  # GET 到新頁面建立資料
   def new
-    # 用 Note.new 做出一個新的 model ，生一個 @note 實體出來，用 @note 才能把值帶到別的檔案
-    # model 用來放資料庫相關資料，Note 是從 model 來的，裡面有一個 class 叫做 model
-    # controller 用來產生物件及資料運算，所以@note = Note.new 會放這邊
     @note = Note.new
   end
+  
+  # POST 寫入資料庫
   def create
-      # 安插 debugger + 輸入 params 可以印出包含用戶所有傳進來的參數的 hash
-      # 要印出 hash 可以用 [ ] 裡面放符號或字串都行，為何字串也行是因為 Rails使用到 HashWithIndifferentAccess 這個類別做出來的
-      # 而我想找出用戶傳進來的內容所以才這樣寫
       # title = params[:title]
       # content = params[:content]
 
-      # 清洗資料
+      # 用 note 去包就不用像上面一樣手動控制一個一個寫入，但要經過清洗
+      # 清洗資料 Strong Parameter:防止別人亂寫東西進來，可過濾掉不要的欄位，
+      # require輸入資料 permit欄位
       clean_note = params.require(:note).permit(:title, :content)
 
       # title: 是用來對應到資料表名稱
       # note 只是一個變數用來代替後面那串
-      # argumenterror 這邊打錯字
       @note = Note.new(clean_note)
 
       # 如果存檔成功就把網址轉到/notes
       if @note.save
-        redirect_to "/notes"
+        redirect_to "/notes" 
       else
-        # 借views/notes/new.html.erb來用，不是重新讀取
+        # 借views/notes/new.html.erb來畫出來給你看，不是重新讀取 new
+        # render 過程發現 @note 不是原本空空的 @note ，而是有帶了(clean_note)參數，
+        他會連同參數裡面的東西一起拿過來
+        # form_for 會再幫你塞回原本欄位，保留下來
         render :new
-        # redirect_to "/notes/new"
       end
   end
 
+  # GET 顯示單一資料
   def show
     # 有要傳到其他方法或 view 就用實體變數
     # find 找不到會噴錯 ActiveRecord::
