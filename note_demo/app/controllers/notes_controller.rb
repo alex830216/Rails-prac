@@ -1,4 +1,7 @@
 class NotesController < ApplicationController
+  # 在做每件事前先做後面的東西 = before_filter
+  before_action :find_note, only: [:show, :edit, :update, :destroy]
+  
   # GET 顯示所有資料
   def index
     # @notes = Note.all
@@ -21,11 +24,10 @@ class NotesController < ApplicationController
       # 用 note 去包就不用像上面一樣手動控制一個一個寫入，但要經過清洗
       # 清洗資料 Strong Parameter:防止別人亂寫東西進來，可過濾掉不要的欄位，
       # require輸入資料 permit欄位
-      clean_note = params.require(:note).permit(:title, :content)
 
       # title: 是用來對應到資料表名稱
       # note 只是一個變數用來代替後面那串
-      @note = Note.new(clean_note)
+      @note = Note.new(note_params)
 
       # 如果存檔成功就把網址轉到/notes
       if @note.save
@@ -33,7 +35,7 @@ class NotesController < ApplicationController
       else
         # 借views/notes/new.html.erb來畫出來給你看，不是重新讀取 new
         # render 過程發現 @note 不是原本空空的 @note ，而是有帶了(clean_note)參數，
-        他會連同參數裡面的東西一起拿過來
+        # 他會連同參數裡面的東西一起拿過來
         # form_for 會再幫你塞回原本欄位，保留下來
         render :new
       end
@@ -45,6 +47,37 @@ class NotesController < ApplicationController
     # find 找不到會噴錯 ActiveRecord::
     # find_by 只會噴 nil
     # 太複雜才會用SQL語法操作，避免 SQL injection
-    @note = Note.find(params[:id])
+    # @note = Note.find(params[:id])
+  end
+  # edit => update
+  # new => create
+  def edit
+    # @note = Note.find(params[:id])
+  end
+  def update
+    # @note = Note.find(params[:id])
+    if @note.update(note_params)
+      redirect_to "/notes" 
+    else
+      render :edit
+    end
+  end
+  def destroy
+    # @note = Note.find(params[:id])
+    @note.destroy
+    redirect_to "/notes"
+  end
+
+  private
+  def note_params
+    params.require(:note).permit(:title, :content)
+  end
+  def find_note
+    # begin
+      @note = Note.find(params[:id])
+    # rescue ActiveRecord::RecordNotFound
+      # render html: "找不到"
+      # render file: "public/404.html", status: 404
+    # end
   end
 end

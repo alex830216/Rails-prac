@@ -1,0 +1,5 @@
+<h1>編輯 <%= @note.title %></h1>
+
+<%# partial render %>
+<%# view 提供的 render 不能把字串 form 改成符號，跟controller 的 render 不一樣%>
+<%= render "form", note: @note %>

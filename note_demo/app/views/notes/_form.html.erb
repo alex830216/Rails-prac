@@ -1,0 +1,45 @@
+<%# action:往哪送，method: 使用什麼方法，get or post
+沒寫就是 get，後端只在乎 name %>
+<%# <form action="/notes" method= "POST"></form> %>
+
+  <%# name 後面接的名稱要跟後端資料庫建的資料表欄位名稱一樣才能送過去 %>
+  <%# 資料表欄位名稱如果忘記可以去 db/migrate 裡面的檔案看他的描述 %>
+  <%# 標題:<input type="text" name="note[title]"> %>
+  <%# 內文:<textarea name="note[content]"></textarea> %>
+  <%# <input type="submit" value="送出"> %>
+
+  <%# form_for 會幫你猜路徑%>
+  <%# 用form_for 快速建立
+  根據@note的方法名去猜測，會幫你把路徑跟方法跟token都寫好 
+  view 的角色是被動的，不要在這邊 new，controller 負責調度資料，流程控制，
+  在 controller new 之後再傳過來會比較好 %>
+  <%#form 小幫手%>
+  <%# 餵進來的東西如果有料會自動幫你帶入 %>
+
+  <%# 從@note 改成 note 讓他不要自己亂抓東西，怕會抓到重複的%>
+  <%# 只要根據餵進來的東西在這邊呈現東西就好%>
+
+
+  <%# 未做完！！！%>
+  <% if note.errors.any? %>
+  <ul>
+    <% note.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
+<%= form_for(note) do |f|%>
+  <%= f.label :title, "標題" %>
+  <%= f.text_field :title %>
+
+  <%= f.label :content, "內文" %>
+  <%= f.text_area :content %>
+  <%= f.submit "送出" %>
+  
+<% end %>
+
+<%# end %>
+
+<%# QueryString
+https://google.com/?p=輸入表格內的東西 & 下一組 %>

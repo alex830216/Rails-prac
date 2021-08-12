@@ -9,18 +9,31 @@
 new_note_path 也是引數，是要做的事 = 把路徑導向 /notes/new，亂打一通會顯示 Routing Error，裡面有寫
 好處是寫錯會馬上噴錯(NameError) %>
 <%# <%= link_to ("新增筆記", new_note_path) %>
-<%= link_to "新增筆記", new_note_path %>
+
 
 <%# 有加=會被印出 %>
 
-<ul>
+
 <%# 從index方法來的，@notes 是陣列因為是物件所以可以用方法 %>
-<%= @notes.each do |note| %>
+
   <%#link_to note.title, note_path(note.id)%>
   <%# link_to(note.title) ,link_to是方法,note.title是參數 %>
   <%# link_to 呈現的資料，路徑：note_path跟id可不寫 %>
-  <li><%= link_to note.title, note_path(note) %></li>
-<% end%>
+<%= link_to "新增筆記", new_note_path %>
+
+<ul>
+<% @notes.each do |note| %>
+  <li>
+	  <%= link_to note.title, note_path(note) %>
+		<%= link_to "編輯", edit_note_path(note) %>
+    <%# method 預設為 get 要改成delete%>
+    <%# rel="nofollow" 叫爬蟲不要跟過來 %>
+    <%# data-method="delete"%>
+    <%# 按超連結會形成一個表單 ，JS 會把 method 跟 token 塞進來%>
+    <%# method 因為常用變特化版，也可以用 data 包起來%>
+    <%= link_to "刪除", note_path(note), method: "delete", data: {confirm: "確定嗎？",id: note.id } %>
+	</li>
+<% end %>
 </ul>
 
 
