@@ -1,11 +1,16 @@
-<h1> 會員登入 </h1>
+<h1>會員登入</h1>
 
-<%= form_for(@user,url:) do |f|%>
-<%= f.label :account%>
-<%= f. %>
+<%# url: login_path，使用 POST 方法，因為要寫入資料庫 %>
+<%= form_for(@user, url: login_path) do |f| %>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
 
-<%= f.label %>
-<%= f. %>
-<%= f.submit "送出" %>
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
 
+  <%= f.submit "Login" %>
 <% end %>

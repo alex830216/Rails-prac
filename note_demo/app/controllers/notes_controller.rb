@@ -1,12 +1,9 @@
 class NotesController < ApplicationController
   # 在做每件事前先做後面的東西 = before_filter
   before_action :find_note, only: [:show, :edit, :update, :destroy]
-  
-
+  # 要登入才能做新增修改刪除等動作
+  before_action :check_login!, except: [:index, :show]
   # 細分controller 讓每個 controller 做他們自己該做的事就好
-
-
-
 
   # GET 顯示所有資料
   def index
@@ -16,9 +13,9 @@ class NotesController < ApplicationController
     # 可寫 all 可不寫，當你沒有要做其他事就寫 all
 
     # 把刪除時間加進去讓他看起來是被刪掉的
-    # 用 where 過濾
+    # 用 where 過濾，沒點刪除的都是 nil
     # @notes = Note.where(deleted_at: nil).order(id: :desc)
-    @notes = Note.available.order(id: :desc)
+    @notes = Note.order(id: :desc)
   end
 
   # GET 到新頁面建立資料
@@ -74,7 +71,9 @@ class NotesController < ApplicationController
   end
   def destroy
     # @note = Note.find(params[:id])
+    # 控制能不能顯示，不要真的刪掉
     # 讓他從原本的刪除變成更新資料 destroy 改 update
+    # 更新刪除的時間，預設都是 null 點了之後會變成 true
     @note.update(deleted_at: Time.now)
     redirect_to "/notes"
   end
@@ -86,7 +85,7 @@ class NotesController < ApplicationController
   end
   def find_note
     # begin
-      @note = Note.available.find(params[:id])
+      @note = Note.find(params[:id])
     # rescue ActiveRecord::RecordNotFound
       # render html: "找不到"
       # render file: "public/404.html", status: 404

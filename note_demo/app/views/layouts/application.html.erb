@@ -11,19 +11,21 @@
   </head>
 
   <body>
-    <%= yield %>
-    <%# 本身是view helper%>
     <%# 如果要寫在別的地方要寫好路徑讓他找，建shared資料夾%>
     <%#使用者登入跟沒登入會出現不同資訊%>
-    <%= lint_to "登入", sign_inpath%>
-    <%= "註冊", sign_upPath%>
-    <%= "登出", ""%>
-    <%# session helper%>
+    <%# 用render 去抓另外一個公版到這邊呈現，看起來比較不那麼亂%>
+    <%= render "shared/navbar" %>
+    <%= yield %>
+
+
+
+
+    <%# session helper???%>
     <%# 幫助 view 做 view 不該做的事，可以讓每個view的html頁面使用%>
     <%#current_user會拿到那個使用者的資料%>
-    <%= session 9527 %>
+    <%# <%= session 9527 %>
 
-    <%# 用render 去抓另外一個公版到這邊呈現，看起來比較不那麼亂%>
+    
     
   </body>
 </html>
