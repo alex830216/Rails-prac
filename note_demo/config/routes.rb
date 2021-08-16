@@ -17,8 +17,32 @@ Rails.application.routes.draw do
   # get "/notes", to: "notes#index"
 
   # resources 直接生8條路徑，不用像上面一樣一個一個慢慢寫
+  
+
+
+
+  # 讓 index 直接在首頁顯示！
+  get "/", to: "notes#index"
   resources :notes
   # 萬一要改網頁路徑名要怎辦?
   # 用 path:"articles"可以直接改網頁路徑名，網址從/notes變成/articles
   # resources :notes, path:"articles"
+
+
+  # 有打錯？？
+  resources :users, only: [:create] do
+    # 路徑： GET /users/sign_up 註冊表單
+    # 為啥藥寫 get ...
+    collection do
+      get :sign_up
+      get :sign_in
+      # 拉出去做
+      # post :sign_in
+    end
+  end
+
+  # 登入跟新增修改刪除不同
+  post "/users/sign_in", to: "sessions#create", as: "login"
+  # 刪除 sessions
+  delete "/users", to:"sessions#destroy", as: "logout"
 end

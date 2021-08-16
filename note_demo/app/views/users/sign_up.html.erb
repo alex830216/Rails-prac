@@ -1,0 +1,18 @@
+<h1> 註冊 </h1>
+
+<%# if error... %>
+
+<%= form_for(@user, url: "/users") do |f| %>
+<%= f.label :email %>
+<%= f.email_field :email %>
+
+<%= f.label :password %>
+<%= f.password_field :password %>
+
+<%= f.label :password_confirmation %>
+<%= f.password_field :password_confirmation %>
+
+<%= f.label :account %>
+<%= f.text_field :account %>
+<%= f.submit :account %>
+<% end %>

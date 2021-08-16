@@ -19,8 +19,6 @@
   <%# 從@note 改成 note 讓他不要自己亂抓東西，怕會抓到重複的%>
   <%# 只要根據餵進來的東西在這邊呈現東西就好%>
 
-
-  <%# 未做完！！！%>
   <% if note.errors.any? %>
   <ul>
     <% note.errors.full_messages.each do |message| %>

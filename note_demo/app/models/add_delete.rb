@@ -1,0 +1,2 @@
+class AddDelete < ApplicationRecord
+end
