@@ -24,6 +24,9 @@ new_note_path 也是引數，是要做的事 = 把路徑導向 /notes/new，亂�
 <ul>
 <% @notes.each do |note| %>
   <li>
+
+    <%= note.user.email %>
+
 	  <%= link_to note.title, note_path(note) %>
 		<%= link_to "編輯", edit_note_path(note) %>
     <%# method 預設為 get 要改成delete%>

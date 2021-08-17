@@ -23,7 +23,11 @@ Rails.application.routes.draw do
 
   # 讓 index 直接在首頁顯示
   get "/", to: "notes#index"
-  resources :notes
+  resources :notes do
+		# shallow nesting
+		resources :comments, shallow: true, except: [:new, :edit, :update]
+	end
+
   # 萬一要改網頁路徑名要怎辦?
   # 用 path:"articles"可以直接改網頁路徑名，網址從/notes變成/articles
   # resources :notes, path:"articles"
@@ -50,4 +54,12 @@ Rails.application.routes.draw do
   post "/users/sign_in", to: "sessions#create", as: "login"
   # 刪除 sessions = 登出
   delete "/users", to: "sessions#destroy", as: "logout"
+
+
+
+
+  # 寫 new 還要跳轉到另一個畫面很奇怪
+  # 直接把 notes的show當成 comments 的 new 頁面
+  
+
 end

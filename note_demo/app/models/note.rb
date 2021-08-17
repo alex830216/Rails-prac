@@ -25,4 +25,10 @@ class Note < ApplicationRecord
     # 使用前先在 Gemfile 寫入 gem "paranoia", "~> 2.2"
     # 接著輸入 bundle install，如果沒反應就重開 server
     acts_as_paranoid
+
+    belongs_to :user
+    has_many :comments
+    has_many :bookmarks
+    has_many :users
+    # 虛線，透過bookmarks連接
 end

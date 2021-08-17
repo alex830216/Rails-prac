@@ -1,0 +1,9 @@
+<%# 拿到show.html.erb 的 .comments class%>
+<%# 用 let 或 const 會造成重複宣告，沒辦法送出多筆 %>
+<%#清空value%>
+var comment_area = document.querySelector(".comments").value = ""
+var content = "<li><%= @content %></li>"
+<%# 塞在 ul 的 li 裡面，塞在最前面%>
+comment_area.insertAdjacentHTML('afterbegin', content)
+
+<%# 或是不要宣告，直接寫在一起 %>

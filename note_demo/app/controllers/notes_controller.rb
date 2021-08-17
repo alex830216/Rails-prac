@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
   # 在做每件事前先做後面的東西 = before_filter
-  before_action :find_note, only: [:show, :edit, :update, :destroy]
+  # find user note
+  before_action :find_user_note, only: [:edit, :update, :destroy]
   # 要登入才能做新增修改刪除等動作
   before_action :check_login!, except: [:index, :show]
   # 細分controller 讓每個 controller 做他們自己該做的事就好
@@ -15,12 +16,14 @@ class NotesController < ApplicationController
     # 把刪除時間加進去讓他看起來是被刪掉的
     # 用 where 過濾，沒點刪除的都是 nil
     # @notes = Note.where(deleted_at: nil).order(id: :desc)
-    @notes = Note.order(id: :desc)
+    # 改回可以看見每個人的東西
+    @notes = Note.includes(:users).order(id: :desc)
   end
 
   # GET 到新頁面建立資料
   def new
-    @note = Note.new
+    # @note = Note.new
+    @note = current_user.notes.new
   end
   
   # POST 寫入資料庫
@@ -34,7 +37,13 @@ class NotesController < ApplicationController
 
       # title: 是用來對應到資料表名稱
       # note 只是一個變數用來代替後面那串
-      @note = Note.new(note_params)
+      # @note = Note.new(note_params)
+      # @note.user_id = current_user.id
+
+      # 告訴他 user_id ，是誰新增的 
+      # 從使用者的角色去新增！！！
+      # notes.new 方法從has_many來的
+      @note = current_user.notes.new(note_params)
 
       # 如果存檔成功就把網址轉到/notes
       if @note.save
@@ -55,6 +64,16 @@ class NotesController < ApplicationController
     # find_by 只會噴 nil
     # 太複雜才會用SQL語法操作，避免 SQL injection
     # @note = Note.find(params[:id])
+
+    # 把before_action的show拿掉，讓他能找到所有人的文章
+
+    # @note = Note.find(params[:id])
+
+    # has_many comments
+    @comment = @note.comments.new
+		@comments = @note.comments.order(id: :desc)
+    
+    
   end
   # edit => update
   # new => create
@@ -83,13 +102,17 @@ class NotesController < ApplicationController
   def note_params
     params.require(:note).permit(:title, :content)
   end
-  def find_note
+  def find_user_note
     # begin
-      @note = Note.find(params[:id])
+      # @note = Note.find(params[:id])
     # rescue ActiveRecord::RecordNotFound
       # render html: "找不到"
       # render file: "public/404.html", status: 404
     # end
+
+
+    # 從個人角度去找文章
+    @note = current_user.notes.find(params[:id])
   end
 
   

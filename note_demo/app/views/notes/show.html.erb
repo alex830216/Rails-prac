@@ -1,2 +1,20 @@
-<h1>筆記: <%= @note.title %> </h1>
-<p><%= @note.content %></p>
+<h1>筆記: <%= @note.title %></h1>
+<%= @note.content %>
+
+<a href="#">
+    <div class="favorite_icon">
+        
+    </div>
+</a>
+
+<%# remote 用非同步方式送資料%>
+<%= form_for(@comment, url: note_comments_path(@note),remote: true) do |f| %>
+  <%= f.text_area :content %>
+  <%= f.submit "新增留言" %>
+<% end %>
+
+<ul class= "comments">
+<% @comments.each do |comment| %>
+  <li><%= comment.content %></li>
+<% end %>
+</ul>

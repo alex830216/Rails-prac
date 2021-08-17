@@ -17,6 +17,23 @@ class User < ApplicationRecord
     # 使用者被建立前先做加密
     before_create :encrypt_password
 
+    # 有四種方法
+    # notes
+    # noets= 
+    # notes.new
+    # notes.create
+    has_many :notes
+
+    # 做出相對應的四個方法，可隨便取名
+    has_many :bookmarks
+    # 預設會去找 favorite_note 這個 model
+    # 寫複數預設會去找 favorite_notes 這個 table
+    # 所以要幫他指定去找 note 這個 model
+    has_many :favorite_notes,
+              through: :bookmarks,
+              source: :note
+              
+
     # 手刻會員系統，面試可能會考
 
     # 加密方法：
